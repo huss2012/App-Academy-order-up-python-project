@@ -4,13 +4,13 @@
     {{ form.csrf_toekn }}
 
     <div>
-        {{ form.employee_number.label}} {{ form.employee_number}}
+        {{ form.employee_number.label }} {{ form.employee_number}}
 
         {% if form.employee_number.errors %}
         <ul>
             {% for error in form.employee_number.errors %}
             <li>{{error}}</li>
-            {% endfor%}
+            {% endfor %}
         </ul>
         {% endif %}
     </div>

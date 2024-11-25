@@ -12,6 +12,7 @@ psycopg2-binary = "*"
 wtforms = "*"
 flask-wtf = "*"
 flask-login = "*"
+jinja2 = "*"
 
 [dev-packages]
 pylint = "*"

@@ -13,6 +13,9 @@ class Employee(db.Model, UserMixin):
     employee_number = db.Column(db.Integer, nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
 
+    orders = db.relationship("Order", back_populates="employee")
+    details = db.relationship("OrderDetail")
+
     @property
     def password(self):
         return self.hashed_password
@@ -48,5 +51,37 @@ class MenuItem(db.Model):
     menu_type_id = db.Column(db.Integer, db.ForeignKey("menu_item_types.id"), nullable=False)
 
     type = db.relationship("MenuItemType")
-
     menu = db.relationship("Menu", back_populates="items")
+
+class Table(db.Model):
+    __tablename__ = "tables"
+
+    id = db.Column(db.Integer, primary_key=True)
+    number = db.Column(db.Integer, nullable=False, unique=True)
+    capacity = db.Column(db.Integer, nullable=False)
+
+    orders = db.relationship("Order", back_populates="table")
+
+
+class Order(db.Model):
+    __tablename__ = "orders"
+
+    id = db.Column(db.Integer, primary_key=True)
+    employee_id = db.Column(db.Integer, db.ForeignKey("employees.id"), nullable=False)
+    table_id = db.Column(db.Integer, db.ForeignKey("tables.id"), nullable=False)
+    finished = db.Column(db.Boolean, nullable=False, default=False)
+
+    employee = db.relationship("Employee", back_populates="orders")
+    table = db.relationship("Table", back_populates="orders")
+    order_details = db.relationship("OrderDetail", back_populates="order", cascade="all, delete-orphen")
+
+
+class OrderDetail(db.Model):
+    __tablename__ = "order_details"
+
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey("orders.id"), nullable=False)
+    menu_item_id = db.Column(db.Integer, db.ForeignKey("menu_items.id"), nullable=False)
+
+    order = db.relationship("Order", back_populates="order_details")
+    menu_item = db.relationship("MenuItem")

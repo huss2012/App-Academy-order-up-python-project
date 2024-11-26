@@ -14,7 +14,7 @@ class Employee(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
 
     orders = db.relationship("Order", back_populates="employee")
-    details = db.relationship("OrderDetail")
+    details = db.relationship("OrderDetail", secondary="orders", back_populates="employee_details")
 
     @property
     def password(self):
@@ -73,7 +73,7 @@ class Order(db.Model):
 
     employee = db.relationship("Employee", back_populates="orders")
     table = db.relationship("Table", back_populates="orders")
-    order_details = db.relationship("OrderDetail", back_populates="order", cascade="all, delete-orphen")
+    order_details = db.relationship("OrderDetail", back_populates="order", cascade="all, delete-orphan")
 
 
 class OrderDetail(db.Model):
@@ -85,3 +85,4 @@ class OrderDetail(db.Model):
 
     order = db.relationship("Order", back_populates="order_details")
     menu_item = db.relationship("MenuItem")
+    employee_details = db.relationship("Employee", secondary="orders", back_populates="details")

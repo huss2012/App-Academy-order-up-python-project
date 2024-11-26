@@ -15,8 +15,8 @@
 <body>
     {% block content %}{% endblock%}
     {% if not current_user.is_anonymous %}
-    <form action="{{url_for('session.logout')}}" method="post">
-        <button>Logout</button>
+    <form class="logout_form" action="{{url_for('session.logout')}}" method="post">
+        <button class="logout_but">Logout</button>
     </form>
     {% endif %}
 </body>

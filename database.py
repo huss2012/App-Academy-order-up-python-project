@@ -23,6 +23,10 @@ with app.app_context():
     fries = MenuItem(name="French fries", price=3.5, type=sides, menu=dinner)
     drp = MenuItem(name="Dr. Pepper", price=1.0, type=beverages, menu=dinner)
     jambalaya = MenuItem(name="Jambalaya", price=21.98, type=entrees, menu=dinner)
+
+    chicken_kiev = MenuItem(name="Chicken Kiev", price=12.0, type=entrees, menu=dinner)
+    deep_fried_onions = MenuItem(name="Deep Fried Oniun", price=3.9, type=sides, menu=dinner)
+    tea = MenuItem(name="Tea", price=2.5, type=beverages, menu=dinner)
     db.session.add(dinner) # Add one and SQLAlchemy will handel the adding the rest due to the relationship defined in the model class definetion
 
 

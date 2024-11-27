@@ -1,4 +1,67 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Order Up!</h1>
+<form class="assing_table_form" action="{{url_for('orders.index')}}" method="post">
+    {{ form.csrf_token }}
+    <h1>Assing Table</h1>
+    <div>
+        {{form.table}}
+    </div>
+    <div>
+        {{form.employee}}
+    </div>
+    <div class="assing_table_button_container">{{form.assing}}</div>
+</form>
+<ul>
+    {% for menuItemType in menu_item_type %}
+    <li>
+        {{menuItemType.name}}
+        <ul>
+            {% for menuItem in menu_item %}
+            {% if menuItem.menu_type_id == menuItemType.id%}
+            <li>
+                {{menuItem.name}}
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+
+
+{% if orders %}
+<h2>YOUR OPEN ORDERS</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Table</td>
+            <td>Employee</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{order.id}}</td>
+            <td>{{order.employee_id}}</td>
+            <td>
+                {{order.table_id}}
+            </td>
+            <td>
+                {{order.finished}}
+            </td>
+            <td>
+                <form action="{{url_for('orders.claseTable', order_id=order.id)}}" method="post">
+                    {{close_table_form.close_table}}
+                </form>
+            </td>
+            <td>
+                <form action="{{url_for('orders.addToOrder', order_id=order.id)}}" method="post">
+                    {{ add_to_order_form.add_to_order_but}}
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
 {% endblock %}
